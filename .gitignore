@@ -1,0 +1,6 @@
+#Java project
+
+/target
+/.settings
+.classpath
+.project
