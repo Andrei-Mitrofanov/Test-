@@ -13,6 +13,11 @@ public class BasicSteps
 {
 	protected WebDriver driver;
 	
+	public BasicSteps(WebDriver driver)
+	{
+		this.driver = driver;
+	}
+	
 	public void openBrowser()
 	{
 		driver = new FirefoxDriver();
@@ -39,9 +44,6 @@ public class BasicSteps
 		emailPage.sendMail(user.getUserName());
 	}
 	
-	public BasicSteps(WebDriver driver)
-	{
-		this.driver = driver;
-	}
+	
 	
 }

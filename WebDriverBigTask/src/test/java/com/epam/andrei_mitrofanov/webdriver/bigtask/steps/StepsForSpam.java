@@ -20,11 +20,17 @@ public class StepsForSpam extends BasicSteps
 			return true;
 		return false;
 	}
-	
 	public void selectSpamMail()
 	{
 		MainPage mainPage = new MainPage(this.driver);
+		mainPage.waitForMail();
 		mainPage.reportSpam();
+	}
+	public void deleteSpamMails() 
+	{
+		MainPage mainPage = new MainPage(this.driver);
+		mainPage.selectAllMailsAsNotSpam();
+
 	}
 
 }

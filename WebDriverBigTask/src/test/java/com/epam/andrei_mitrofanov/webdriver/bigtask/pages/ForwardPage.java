@@ -28,7 +28,7 @@ public class ForwardPage extends AbstractPage
 	@FindBy(xpath = "//button[@name='ok']")
 	private WebElement confirmationButtonOk;
 	
-	@FindBy(xpath = "")
+	@FindBy(xpath = "//span[contains(text(),'Forward a')]/../..//input[@type='radio']")
 	private WebElement radioButtonForward;
 	
 	@FindBy(xpath = "//button[@guidedhelpid='save_changes_button']")

@@ -1,18 +1,20 @@
 package com.epam.andrei_mitrofanov.webdriver.bigtask.pages;
 
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MainPage extends AbstractPage
 {
 	private final String BASE_URL = "https://mail.google.com/mail/u/0/#inbox";
 	private final String xpathForCheckingSpam = "//span[@email = 'mitrofanovuser1@gmail.com']";
-	private WebDriverWait wait = new WebDriverWait(this.driver, 60);
+	//private WebDriverWait wait = new WebDriverWait(this.driver, 30);
 	
 	@FindBy(id = "gb_71")
 	private WebElement buttonSignOut;
@@ -35,10 +37,22 @@ public class MainPage extends AbstractPage
 	@FindBy(css = "div.T-I.J-J5-Ji.ash.T-I-ax7.L3")
 	private WebElement settingsButton;
 	
+	@FindBy(css = "a.J-Ke.n0.aBU")
+	private WebElement goToInbox;
+	
+	@FindBy(css = "div.ar9.T-I-J3.J-J5-Ji")
+	private WebElement deleteAllMails;
+	
+	@FindBy(xpath = "//div[@gh = 'tm']//div[@aria-label = 'Select']//div[@role = 'presentation']")
+	private WebElement selectAll;
+	
+	@FindBy(xpath = "//div[text() = 'Not spam']")
+	private WebElement notSpamButton;
+
 	@FindBy(xpath = "//a[contains(.,'Spam')]")
 	private WebElement spamFolderWithLetter;
 
-	@FindBy(xpath = "//a[@class='gb_A gb_8 gb_f gb_2']")
+	@FindBy(xpath = "//a[@class = 'gb_A gb_8 gb_f gb_2']")
 	private WebElement openingSignOut;
 	
 	@FindBy(xpath = "//tr[contains(@class,'zA zE')][1]")
@@ -62,14 +76,18 @@ public class MainPage extends AbstractPage
 		confirmationForwardMail.click();
 		confirmationLink.click();
 	}
+	public void selectAllMailsAsNotSpam()
+	{
+		selectAll.click();
+		notSpamButton.click();
+	}
 	public void reportSpam()
 	{
-		wait.until(ExpectedConditions.visibilityOf(checkMail));
 		if(checkMail.getAttribute("email").equals("mitrofanovuser1@gmail.com"))
 		{
 			selectMail.click();
-		}
-		reportSpamButton.click();
+		}	
+		reportSpamButton.click();		
 	}
 	public void logout()
 	{
@@ -80,6 +98,25 @@ public class MainPage extends AbstractPage
 	{
 		buttonNamedMore.click();
 		spamFolderWithLetter.click();
+	}
+	public void waitForMail()
+	{
+		try
+		{
+			if(checkMail.isDisplayed())
+			{
+				
+			}
+		}
+		catch(Exception e)
+		{
+			if(e instanceof ElementNotVisibleException || e instanceof NoSuchElementException)
+			{
+				this.driver.navigate().refresh();
+				this.driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+				waitForMail();
+			}
+		}
 	}
 	public boolean tryToFindSpam()
 	{

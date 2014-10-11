@@ -39,11 +39,12 @@ public class Spam
 		steps.closeBrowser();
 		steps.openBrowser();
 		steps.logInGmail(user2);
-		Assert.assertTrue(steps.checkSpamMail());
+		Assert.assertTrue(steps.checkSpamMail());	
 	}
 	@AfterTest
 	public void stopBrowser()
 	{
+		steps.deleteSpamMails();
 		steps.closeBrowser();
 	}
 }
