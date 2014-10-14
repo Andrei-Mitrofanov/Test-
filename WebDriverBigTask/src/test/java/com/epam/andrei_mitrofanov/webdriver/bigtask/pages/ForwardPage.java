@@ -1,12 +1,17 @@
 package com.epam.andrei_mitrofanov.webdriver.bigtask.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ForwardPage extends AbstractPage
 {
+	private WebDriverWait wait = new WebDriverWait(this.driver, 30);
+	
 	@FindBy(css = "iframe.ds")
 	private WebElement iframe;
 	
@@ -29,10 +34,16 @@ public class ForwardPage extends AbstractPage
 	private WebElement confirmationButtonOk;
 	
 	@FindBy(xpath = "//span[contains(text(),'Forward a')]/../..//input[@type='radio']")
-	private WebElement radioButtonForward;
+	private WebElement radioButtonForwardACopyOfIncomingMail;
 	
-	@FindBy(xpath = "//button[@guidedhelpid='save_changes_button']")
+	@FindBy(xpath = "//span[contains(text(),'Disable forwarding')]/../..//input[@type='radio']")
+	private WebElement radioButtonDisableForwarding;
+	
+	@FindBy(xpath = "//div[@class='nH Tv1JD']//button[@guidedhelpid='save_changes_button']")
 	private WebElement saveChangesButton;
+	
+	@FindBy(xpath = "//div[contains(text(),'You are forwarding your email to')]")
+	private WebElement confirmationText;
 	
 	public ForwardPage(WebDriver driver) 
 	{
@@ -51,11 +62,19 @@ public class ForwardPage extends AbstractPage
 		this.driver.switchTo().parentFrame();
 		confirmationButtonOk.click();
 	}
-	public void acceptForwardAdress()
+	public void acceptForwardAdress() 
 	{
 		forwardingTab.click();
-		radioButtonForward.click();
+		radioButtonForwardACopyOfIncomingMail.click();
 		saveChangesButton.click();
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'You are')]")));
+	}
+	public void disableForwardAdress()
+	{
+		forwardingTab.click();
+		radioButtonDisableForwarding.click();
+		saveChangesButton.click();
+		this.driver.navigate().refresh();
 	}
 	@Override
 	public void openPage() 

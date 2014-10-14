@@ -10,6 +10,9 @@ public class FilterPage extends AbstractPage
 	@FindBy(css = "input.ZH.nr.aQa")
 	private WebElement filterFieldFrom;
 	
+	@FindBy(css = "div.T-I.J-J5-Ji.Zx.acL.T-I-atl.L3")
+	private WebElement createNewFilterButton;
+	
 	@FindBy(xpath = "//a[contains(@href,'/filters')]")
 	private WebElement filtersTab;
 	
@@ -28,8 +31,11 @@ public class FilterPage extends AbstractPage
 	@FindBy(xpath = "//div[contains(label/text(),'Always mark it as important')]/input[@type='checkbox']")
 	private WebElement filterFieldAlwaysMarkAsImportant;
 	
-	@FindBy(css = "div.T-I.J-J5-Ji.Zx.acL.T-I-atl.L3")
-	private WebElement createNewFilterButton;
+	@FindBy(xpath = "//td[@class='qX r5']/input[@type='checkbox']")
+	private WebElement filterCheckBox;
+	
+	@FindBy(xpath = "//button[@class='qR'][text()='Delete']")
+	private WebElement deleteFilter;
 	
 	public FilterPage(WebDriver driver) 
 	{
@@ -54,7 +60,12 @@ public class FilterPage extends AbstractPage
 		filterFieldAlwaysMarkAsImportant.click();
 		createNewFilterButton.click();
 	}
-	
+	public void deleteFilter()
+	{
+		filtersTab.click();
+		filterCheckBox.click();
+		deleteFilter.click();
+	}
 	@Override
 	public void openPage() 
 	{

@@ -24,7 +24,7 @@ public class Spam
 		steps.openBrowser();
 	}
 	@Test
-	public void oneCanSendMailAndCheckItAsSpam() throws InterruptedException
+	public void oneCanSendMailAndCheckItAsSpam() 
 	{
 		steps.logInGmail(user1);
 		steps.sendMessage(user2);

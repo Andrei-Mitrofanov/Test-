@@ -37,9 +37,6 @@ public class MainPage extends AbstractPage
 	@FindBy(css = "div.T-I.J-J5-Ji.ash.T-I-ax7.L3")
 	private WebElement settingsButton;
 	
-	@FindBy(css = "a.J-Ke.n0.aBU")
-	private WebElement goToInbox;
-	
 	@FindBy(css = "div.ar9.T-I-J3.J-J5-Ji")
 	private WebElement deleteAllMails;
 	
@@ -55,11 +52,20 @@ public class MainPage extends AbstractPage
 	@FindBy(xpath = "//a[@class = 'gb_A gb_8 gb_f gb_2']")
 	private WebElement openingSignOut;
 	
-	@FindBy(xpath = "//tr[contains(@class,'zA zE')][1]")
-	private WebElement confirmationForwardMail;
+	@FindBy(xpath = "//tr[@class = 'zA zE'][1]")
+	private WebElement firstMailInbox;
 	
 	@FindBy(xpath = "//a[contains(@href,'https://isolated.mail.google.com/mail/')][1]")
 	private WebElement confirmationLink;
+	
+	@FindBy(xpath = "//a[@class='J-Ke n0'][text()='Bin']")
+	private WebElement trashFolder;
+	
+	@FindBy(xpath = "//tr[@class = 'zA zE'][1]/td[@class = 'WA xY']/div")
+	private WebElement importantMail;
+	
+	@FindBy(xpath = "//tr[@class = 'zA zE'][1]/td[@class = 'yf xY ']/img")
+	private WebElement mailWithAttachment;
 	
 	public MainPage(WebDriver driver) 
 	{
@@ -73,7 +79,7 @@ public class MainPage extends AbstractPage
 	}
 	public void confirmForwardSettings()
 	{
-		confirmationForwardMail.click();
+		firstMailInbox.click();
 		confirmationLink.click();
 	}
 	public void selectAllMailsAsNotSpam()
@@ -99,14 +105,16 @@ public class MainPage extends AbstractPage
 		buttonNamedMore.click();
 		spamFolderWithLetter.click();
 	}
+	public void goToTrash()
+	{
+		buttonNamedMore.click();
+		trashFolder.click();
+	}
 	public void waitForMail()
 	{
 		try
 		{
-			if(checkMail.isDisplayed())
-			{
-				
-			}
+			if(checkMail.isDisplayed()){}
 		}
 		catch(Exception e)
 		{
@@ -122,6 +130,28 @@ public class MainPage extends AbstractPage
 	{
 		if(driver.findElements(By.xpath(xpathForCheckingSpam)).size() > 1)
 			return true;
+		return false;
+	}
+	public boolean tryToFindImportantMailFromCurrentUser(String userName)
+	{
+		if(checkMail.getAttribute("email").equals(userName))
+		{
+			if(importantMail.getAttribute("aria-label").equals("Important because it matched one of your importance filters."))
+			{
+				return true;
+			}
+		}	
+		return false;
+	}
+	public boolean tryToFindMailWithAttachmentFromCurrentUser(String userName)
+	{
+		if(checkMail.getAttribute("email").equals(userName))
+		{
+			if(mailWithAttachment.getAttribute("alt").equals("Attachment"))
+			{
+				return true;
+			}
+		}	
 		return false;
 	}
 	@Override

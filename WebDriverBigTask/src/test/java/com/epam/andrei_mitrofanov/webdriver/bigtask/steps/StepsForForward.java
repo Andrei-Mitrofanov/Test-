@@ -27,17 +27,45 @@ public class StepsForForward extends BasicSteps
 		FilterPage filterPage = new FilterPage(driver);
 		filterPage.createFilter(someUser.getUserName());
 	}
-	public void accetpForwardAdress()
+	public void acceptForwardAdress()
 	{
 		MainPage mainPage = new MainPage(driver);
 		mainPage.goToSettings();
 		ForwardPage forwardPage = new ForwardPage(driver);
 		forwardPage.acceptForwardAdress();
 	}
+	public void disableForwardAdressAndDeleteFilter()
+	{
+		MainPage mainPage = new MainPage(driver);
+		mainPage.goToSettings();
+		ForwardPage forwardPage = new ForwardPage(driver);
+		forwardPage.acceptForwardAdress();
+		FilterPage filterPage = new FilterPage(driver);
+		filterPage.deleteFilter();
+	}
 	public void confirmForwardMail()
 	{
 		MainPage mainPage = new MainPage(driver);
 		mainPage.confirmForwardSettings();
+	}
+	public boolean checkImportantMailWithAttachment(User user)
+	{
+		MainPage mainPage = new MainPage(driver);
+		mainPage.goToTrash();
+		mainPage.waitForMail();
+		if(mainPage.tryToFindImportantMailFromCurrentUser(user.getUserName())
+				&& mainPage.tryToFindMailWithAttachmentFromCurrentUser(user.getUserName()))
+			return true;
+		return false;
+	}
+	public boolean checkMailWithoutAttachment(User user)
+	{
+		MainPage mainPage = new MainPage(driver);
+		mainPage.waitForMail();
+		if(mainPage.tryToFindImportantMailFromCurrentUser(user.getUserName())
+				&& mainPage.tryToFindMailWithAttachmentFromCurrentUser(user.getUserName()))
+			return false;
+		return true;
 	}
 
 }

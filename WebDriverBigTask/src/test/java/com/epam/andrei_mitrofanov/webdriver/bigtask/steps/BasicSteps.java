@@ -1,5 +1,6 @@
 package com.epam.andrei_mitrofanov.webdriver.bigtask.steps;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
@@ -42,6 +43,12 @@ public class BasicSteps
 	{
 		EmailPage emailPage = new EmailPage(driver);
 		emailPage.sendMail(user.getUserName());
+	}
+	
+	public void sendMessageWithAttachment(User user) throws IOException, InterruptedException
+	{
+		EmailPage emailPage = new EmailPage(driver);
+		emailPage.sendMailWithAttachment(user.getUserName());
 	}
 	
 	
